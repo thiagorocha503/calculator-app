@@ -1,7 +1,6 @@
 var operador = "";
-var last_number = "";
+var last_number = 0;
 const ERROR = "ERR";
-var result = 0;
 
 /**
  * 
@@ -13,39 +12,29 @@ function clickOperador(newOperador) {
     if (visor.innerHTML == ERROR) {
         return;
     }
+    // operação anterior
+    if (operador != "") {
+        alert("last operador: " + operador);
+        var a = parseFloat(last_number);
+        var b = parseFloat(visor.innerHTML)
+        last_number = calcule(a, b, operador);
+        visor.innerHTML = "";
+        //operador = ""
+        return;
+    }
+    alert("operador: " + newOperador);
     operador = newOperador;
-    last_number = visor.innerHTML;
+    last_number = parseFloat(visor.innerHTML);
     visor.innerHTML = "";
 }
 
 
 
 function clickEquals() {
-    // caso nenhum operação escolhida
-    if (operador == "") {
-        return;
-    }
     var visor = document.getElementById("visor");
-    switch (operador) {
-        case "+":
-            result = parseFloat(last_number) + parseFloat(visor.innerHTML);
-            break;
-        case "-":
-            result = parseFloat(last_number) - parseFloat(visor.innerHTML);
-            break;
-        case "*":
-            result = parseFloat(last_number) * parseFloat(visor.innerHTML);
-            break;
-        case "/":
-            var dividendo = parseFloat(visor.innerHTML);
-            if (dividendo == 0) {
-                result = ERROR;
-                break;
-            }
-            result = parseFloat(last_number) / dividendo;
-            break;
-    }
-    visor.innerHTML = result;
+    alert("last: " + last_number + ", visor: " + visor.innerHTML + ", operador: " + operador);
+    last_number = calcule(last_number, parseFloat(visor.innerHTML), operador);
+    visor.innerHTML = last_number;
     operador = "";
 }
 
@@ -55,7 +44,7 @@ function isValidZero() {
     if (visor.innerHTML.length == 0) {
         return true;
     } else {
-         // caso decimal
+        // caso decimal
         if (hasDot()) {
             return true;
         }
@@ -64,7 +53,7 @@ function isValidZero() {
         } else {
             return true;
         }
-    } 
+    }
 
 }
 
@@ -151,4 +140,22 @@ function clickAllClean() {
     var visor = document.getElementById("visor");
     visor.innerHTML = "";
     last_number = "";
+    operador = "";
+}
+
+function calcule(a, b, operador) {
+    var visor = document.getElementById("visor");
+    switch (operador) {
+        case "+":
+            return a + b;
+        case "-":
+            return a - b;
+        case "*":
+            return a * b;
+        case "/":
+            if (b == 0) {
+                return ERROR;
+            }
+            return a / b;
+    }
 }
