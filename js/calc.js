@@ -35,7 +35,11 @@ function clickEquals() {
     var visor = document.getElementById("visor");
     alert("last: " + last_number + ", visor: " + visor.innerHTML + ", operador: " + operador);
     last_number = calcule(last_number, parseFloat(visor.innerHTML), operador);
-    visor.innerHTML = last_number;
+    if (isNaN(last_number) || (last_number > 99999999)) {
+        visor.innerHTML = ERROR;
+    } else {
+        visor.innerHTML = last_number;
+    }
     operador = "";
 }
 
@@ -167,9 +171,6 @@ function calcule(a, b, operador) {
         case "*":
             return a * b;
         case "/":
-            if (b == 0) {
-                return ERROR;
-            }
             return a / b;
     }
 }
