@@ -1,7 +1,8 @@
 var operador = "";
 var last_number = 0;
 const ERROR = "ERR";
-
+const DECIMAL_PLACES = 2;
+const MAXIMO_DIGITS = 8
 /**
  * 
  * @param {*} newOperador 
@@ -57,6 +58,16 @@ function isValidZero() {
 
 }
 
+function countDecimalPlaces() {
+    var visor = document.getElementById("visor");
+    for (var i = 0; i < visor.innerHTML.length; i++) {
+        if (visor.innerHTML[i] == ".") {
+            return (visor.innerHTML.length - 1) - i;
+        }
+    }
+    return 0;
+}
+
 /**
  * Inseri um número na tela
  * 
@@ -76,7 +87,8 @@ function clickNumberButton(number) {
     }
     // verifica quantidade de digitos
     if (hasDot()) {
-        if (visor.innerHTML.length <= 8) {
+        alert("> " + countDecimalPlaces());
+        if ((visor.innerHTML.length <= MAXIMO_DIGITS + 1) && (countDecimalPlaces() <= 2)) {
             if (visor.innerHTML == "0") {
                 visor.innerHTML += number;
             } else {
@@ -84,7 +96,7 @@ function clickNumberButton(number) {
             }
         }
     } else {
-        if (visor.innerHTML.length <= 7) {
+        if (visor.innerHTML.length < MAXIMO_DIGITS) {
             if (visor.innerHTML == "0") {
                 visor.innerHTML = number;
             } else {
@@ -106,7 +118,9 @@ function hasDot() {
     }
     return false;
 }
-
+/**
+ * Retorna a quantidade de casas decimais do número no visor
+ */
 function clickDot() {
     var visor = document.getElementById("visor");
     if (!hasDot()) {
