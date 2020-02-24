@@ -107,9 +107,8 @@ function clickNumberButton(number) {
         visor.innerHTML = "";
         changeVisor = false;
     }
-    if (hasDot()) {
-        //        alert("> " + countDecimalPlaces());
-        if ((visor.innerHTML.length <= MAXIMO_DIGITS + 1) && (countDecimalPlaces() < DECIMAL_PLACES)) {
+    if (hasDot(String(visor.innerHTML))) {
+        if ((visor.innerHTML.length <= MAXIMO_DIGITS + 1) && (countDecimalPlaces(String(visor.innerHTML)) < DECIMAL_PLACES)) {
             if (visor.innerHTML == "0") {
                 visor.innerHTML += number;
             } else {
@@ -141,6 +140,7 @@ function clickEquals() {
     // mais de um clique no botão de igual
     if (last_tecla == "=") {
         visor.innerHTML = "0";
+        return;
     }
     // nenhuma operação realizada
     if (operador == "") {
@@ -162,7 +162,7 @@ function isValidZero() {
         return true;
     } else {
         // caso decimal
-        if (hasDot()) {
+        if (hasDot(String(visor.innerHTML))) {
             return true;
         }
         if (visor.innerHTML[0] == "0") {
@@ -174,11 +174,10 @@ function isValidZero() {
 
 }
 
-function countDecimalPlaces() {
-    var visor = document.getElementById("visor");
-    for (var i = 0; i < visor.innerHTML.length; i++) {
-        if (visor.innerHTML[i] == ".") {
-            return (visor.innerHTML.length - 1) - i;
+function countDecimalPlaces(text) {
+    for (var i = 0; i < text.length; i++) {
+        if (text[i] == ".") {
+            return (text.length - 1) - i;
         }
     }
     return 0;
@@ -186,10 +185,9 @@ function countDecimalPlaces() {
 
 
 
-function hasDot() {
-    var visor = document.getElementById("visor").innerHTML;
-    for (var i = 0; i < visor.length; i++) {
-        if (visor[i] == ".") {
+function hasDot(text) {
+    for (var i = 0; i < text.length; i++) {
+        if (text[i] == ".") {
             return true;
         }
     }
@@ -201,7 +199,7 @@ function hasDot() {
  */
 function clickDot() {
     var visor = document.getElementById("visor");
-    if (!hasDot()) {
+    if (!hasDot(String(visor.innerHTML))) {
         // caso nenhum número
         if (visor.innerHTML == "") {
             visor.innerHTML = "0.";
