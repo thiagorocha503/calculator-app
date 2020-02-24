@@ -4,6 +4,7 @@ var result = 0;
 const ERROR = "ERR";
 const DECIMAL_PLACES = 2;
 const MAXIMO_DIGITS = 8
+var changeVisor = false;
 /**
  * 
  * @param {*} newOperador 
@@ -16,8 +17,7 @@ function isOperador(a) {
         return true;
     } else if (a == "*") {
         return true;
-    }
-    else if (a == "/") {
+    } else if (a == "/") {
         return true;
     }
     return false;
@@ -31,40 +31,44 @@ function clickOperador(newOperador) {
     }
     if (isOperador(last_tecla)) {
         operador = newOperador;
-        visor.innerHTML = "0";
         last_tecla = newOperador;
+        changeVisor = true;
         return;
     }
 
-    
+
     last_tecla = newOperador;
+    changeVisor = true;
     // operação anterior
     if (operador != "") {
         alert("last operador: " + operador);
         var a = parseFloat(result);
-        var b = parseFloat(visor.innerHTML)
+        var b = parseFloat(visor.innerHTML);
         result = calcule(a, b, operador);
-        visor.innerHTML = "0";
         return;
     } else {
         alert("operador: " + newOperador);
         operador = newOperador;
         result = parseFloat(visor.innerHTML);
-        visor.innerHTML = "0";
     }
 
 }
-
 
 
 function clickEquals() {
     var visor = document.getElementById("visor");
     alert("last: " + result + ", visor: " + visor.innerHTML + ", operador: " + operador);
     result = calcule(result, parseFloat(visor.innerHTML), operador);
-    // nenhuma operação realizada
-    if(last_tecla=="="){
+    changeVisor = true;
+    // número seguido de operador 
+    if (isOperador(last_tecla)) {
+        return;
+    }
+    // mais de um clique no botão de igual
+    if (last_tecla == "=") {
         visor.innerHTML = "0";
     }
+    // nenhuma operação realizada
     if (operador == "") {
         return;
     }
@@ -112,6 +116,7 @@ function countDecimalPlaces() {
  */
 function clickNumberButton(number) {
     var visor = document.getElementById("visor");
+    last_tecla = number;
     // caso ERR, bloqueia insersão
     //alert(""+number,"");
     if (visor.innerHTML == ERROR) {
@@ -124,6 +129,10 @@ function clickNumberButton(number) {
         }
     }
     // verifica quantidade de digitos
+    if (changeVisor) {
+        visor.innerHTML = "";
+        changeVisor = false;
+    }
     if (hasDot()) {
         alert("> " + countDecimalPlaces());
         if ((visor.innerHTML.length <= MAXIMO_DIGITS + 1) && (countDecimalPlaces() <= 2)) {
