@@ -2,7 +2,7 @@ var operador = "";
 var last_tecla = "";
 var result = 0;
 const ERROR = "ERR";
-const DECIMAL_PLACES = 2;
+const DECIMAL_PLACES = 3;
 const MAXIMO_DIGITS = 8
 var changeVisor = true;
 
@@ -109,7 +109,7 @@ function clickNumberButton(number) {
     }
     if (hasDot()) {
         //        alert("> " + countDecimalPlaces());
-        if ((visor.innerHTML.length <= MAXIMO_DIGITS + 1) && (countDecimalPlaces() <= 2)) {
+        if ((visor.innerHTML.length <= MAXIMO_DIGITS + 1) && (countDecimalPlaces() < DECIMAL_PLACES)) {
             if (visor.innerHTML == "0") {
                 visor.innerHTML += number;
             } else {
@@ -147,7 +147,7 @@ function clickEquals() {
         return;
     }
     last_tecla = "=";
-    if (isNaN(result) || (result > 99999999)) {
+    if (isNaN(result) || (String(result).length > MAXIMO_DIGITS)) {
         visor.innerHTML = ERROR;
     } else {
         visor.innerHTML = result;
