@@ -62,9 +62,13 @@ function clickEquals() {
     alert("last: " + result + ", visor: " + visor.innerHTML + ", operador: " + operador);
     result = calcule(result, parseFloat(visor.innerHTML), operador);
     // nenhuma operação realizada
+    if(last_tecla=="="){
+        visor.innerHTML = "0";
+    }
     if (operador == "") {
         return;
     }
+    last_tecla = "=";
     if (isNaN(result) || (result > 99999999)) {
         visor.innerHTML = ERROR;
     } else {
