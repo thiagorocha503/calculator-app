@@ -46,13 +46,13 @@ function clickOperador(newOperador) {
     changeVisor = true;
     // operação anterior
     if (operador != "") {
-        alert("last operador: " + operador);
+        //       alert("last operador: " + operador);
         var a = parseFloat(result);
         var b = parseFloat(visor.innerHTML);
         result = calcule(a, b, operador);
         return;
     } else {
-        alert("operador: " + newOperador);
+        //        alert("operador: " + newOperador);
         operador = newOperador;
         result = parseFloat(visor.innerHTML);
     }
@@ -62,7 +62,7 @@ function clickOperador(newOperador) {
 
 function clickEquals() {
     var visor = document.getElementById("visor");
-    alert("last: " + result + ", visor: " + visor.innerHTML + ", operador: " + operador);
+    //    alert("last: " + result + ", visor: " + visor.innerHTML + ", operador: " + operador);
     result = calcule(result, parseFloat(visor.innerHTML), operador);
     changeVisor = true;
     // número seguido de operador 
@@ -139,7 +139,7 @@ function clickNumberButton(number) {
         changeVisor = false;
     }
     if (hasDot()) {
-        alert("> " + countDecimalPlaces());
+        //        alert("> " + countDecimalPlaces());
         if ((visor.innerHTML.length <= MAXIMO_DIGITS + 1) && (countDecimalPlaces() <= 2)) {
             if (visor.innerHTML == "0") {
                 visor.innerHTML += number;
@@ -192,7 +192,15 @@ function clickDot() {
  */
 function clickClean() {
     var visor = document.getElementById("visor");
-    visor.innerHTML = "0";
+    if (isOperador(last_tecla)) {
+        operador = "";
+        visor.innerHTML = result;
+    } else if (last_tecla == "=") {
+        visor.innerHTML = "0";
+        result = "";
+    } else {
+        visor.innerHTML = "0";
+    }
 
 }
 
