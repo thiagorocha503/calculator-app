@@ -14,6 +14,22 @@ function clickInvert() {
     visor.innerHTML = (-1) * parseFloat(visor.innerHTML);
 
 }
+
+function clickLeftArrow() {
+    var visor = document.getElementById("visor");
+    // tela com número zero
+    if (visor.innerHTML == "0") {
+        return;
+    }
+    new_value = visor.innerHTML.substr(0, visor.innerHTML.length - 1);
+    if (new_value == "") {
+        visor.innerHTML = "0";
+    } else {
+        visor.innerHTML = new_value;
+    }
+
+}
+
 // load and reload page
 window.addEventListener("load", function(event) {
     var visor = document.getElementById("visor");
@@ -68,6 +84,50 @@ function clickOperador(newOperador) {
 
 }
 
+/**
+ * Inseri um número na tela
+ * 
+ */
+function clickNumberButton(number) {
+    var visor = document.getElementById("visor");
+    last_tecla = number;
+    // caso ERR, bloqueia insersão
+    //alert(""+number,"");
+    if (visor.innerHTML == ERROR) {
+        return;
+    }
+    // verifica se numero zero é válido
+    if (number == "0") {
+        if (!isValidZero()) {
+            return;
+        }
+    }
+    // verifica quantidade de digitos
+    if (changeVisor) {
+        visor.innerHTML = "";
+        changeVisor = false;
+    }
+    if (hasDot()) {
+        //        alert("> " + countDecimalPlaces());
+        if ((visor.innerHTML.length <= MAXIMO_DIGITS + 1) && (countDecimalPlaces() <= 2)) {
+            if (visor.innerHTML == "0") {
+                visor.innerHTML += number;
+            } else {
+                visor.innerHTML = visor.innerHTML + number;
+            }
+        }
+    } else {
+        if (visor.innerHTML.length < MAXIMO_DIGITS) {
+            if (visor.innerHTML == "0") {
+                visor.innerHTML = number;
+            } else {
+                visor.innerHTML = visor.innerHTML + number;
+            }
+
+        }
+    }
+
+}
 
 function clickEquals() {
     var visor = document.getElementById("visor");
@@ -124,50 +184,6 @@ function countDecimalPlaces() {
     return 0;
 }
 
-/**
- * Inseri um número na tela
- * 
- */
-function clickNumberButton(number) {
-    var visor = document.getElementById("visor");
-    last_tecla = number;
-    // caso ERR, bloqueia insersão
-    //alert(""+number,"");
-    if (visor.innerHTML == ERROR) {
-        return;
-    }
-    // verifica se numero zero é válido
-    if (number == "0") {
-        if (!isValidZero()) {
-            return;
-        }
-    }
-    // verifica quantidade de digitos
-    if (changeVisor) {
-        visor.innerHTML = "";
-        changeVisor = false;
-    }
-    if (hasDot()) {
-        //        alert("> " + countDecimalPlaces());
-        if ((visor.innerHTML.length <= MAXIMO_DIGITS + 1) && (countDecimalPlaces() <= 2)) {
-            if (visor.innerHTML == "0") {
-                visor.innerHTML += number;
-            } else {
-                visor.innerHTML = visor.innerHTML + number;
-            }
-        }
-    } else {
-        if (visor.innerHTML.length < MAXIMO_DIGITS) {
-            if (visor.innerHTML == "0") {
-                visor.innerHTML = number;
-            } else {
-                visor.innerHTML = visor.innerHTML + number;
-            }
-
-        }
-    }
-
-}
 
 
 function hasDot() {
@@ -179,6 +195,7 @@ function hasDot() {
     }
     return false;
 }
+
 /**
  * Retorna a quantidade de casas decimais do número no visor
  */
@@ -194,6 +211,7 @@ function clickDot() {
     }
 
 }
+
 /**
  * Limpa tela
  * 
