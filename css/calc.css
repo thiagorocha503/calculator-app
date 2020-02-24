@@ -3,24 +3,29 @@
     padding: 0;
 }
 
-.calculadora{
-    border: 2px;
-    width: 50;
+#calculadora {
+    padding: 10px;
+    margin-top: 50px;
+    border: 10px;
     background-color: #D9E4F1;
-    border-radius: 1px;
+    border-radius: 5px;
 }
 
-#visor{
-    border: 5px white ;
+#visor {
+    border: 2px solid black;
+    font-size: 40px;
+    text-align: right;
     background-color: white;
-    height: 50px;
+    height: 80px;
+    margin-bottom: 10px;
 }
 
 input.botao {
-    background-color:  #EBF2F9;
+    background-color: #EBF2F9;
     padding: 20px;
-    width: 80;
-    height: 80;
-    margin: 20;
-    border-radius: 1px;
+    width: 80px;
+    height: 80px;
+    margin: 1px;
+    font-size: 20px;
+    border-radius: 2px;
 }
