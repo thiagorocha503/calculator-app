@@ -6,8 +6,17 @@ const DECIMAL_PLACES = 2;
 const MAXIMO_DIGITS = 8
 var changeVisor = true;
 
+/**
+ * Inverter sinal do número
+ */
+function clickInvert() {
+    var visor = document.getElementById("visor");
+    visor.innerHTML = (-1) * parseFloat(visor.innerHTML);
+
+}
 // load and reload page
 window.addEventListener("load", function(event) {
+    var visor = document.getElementById("visor");
     visor.innerHTML = "0";
 });
 /**

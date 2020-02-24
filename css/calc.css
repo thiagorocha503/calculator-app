@@ -20,12 +20,17 @@
     margin-bottom: 10px;
 }
 
-input.botao {
+input {
     background-color: #EBF2F9;
     padding: 20px;
     width: 80px;
     height: 80px;
     margin: 1px;
     font-size: 20px;
+    border-radius: 2px;
+}
+
+input.plus_minus {
+    font-size: 27px;
     border-radius: 2px;
 }
