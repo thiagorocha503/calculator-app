@@ -1,5 +1,6 @@
 var operador = "";
-var last_number = 0;
+var last_tecla = "";
+var result = 0;
 const ERROR = "ERR";
 const DECIMAL_PLACES = 2;
 const MAXIMO_DIGITS = 8
@@ -7,38 +8,67 @@ const MAXIMO_DIGITS = 8
  * 
  * @param {*} newOperador 
  */
+
+function isOperador(a) {
+    if (a == "+") {
+        return true;
+    } else if (a == "-") {
+        return true;
+    } else if (a == "*") {
+        return true;
+    }
+    else if (a == "/") {
+        return true;
+    }
+    return false;
+}
+
 function clickOperador(newOperador) {
     var visor = document.getElementById("visor");
     // caso ERR, bloqueia insersão
     if (visor.innerHTML == ERROR) {
         return;
     }
+    if (isOperador(last_tecla)) {
+        operador = newOperador;
+        visor.innerHTML = "0";
+        last_tecla = newOperador;
+        return;
+    }
+
+    
+    last_tecla = newOperador;
     // operação anterior
     if (operador != "") {
         alert("last operador: " + operador);
-        var a = parseFloat(last_number);
+        var a = parseFloat(result);
         var b = parseFloat(visor.innerHTML)
-        last_number = calcule(a, b, operador);
-        visor.innerHTML = "";
-        //operador = ""
+        result = calcule(a, b, operador);
+        visor.innerHTML = "0";
         return;
+    } else {
+        alert("operador: " + newOperador);
+        operador = newOperador;
+        result = parseFloat(visor.innerHTML);
+        visor.innerHTML = "0";
     }
-    alert("operador: " + newOperador);
-    operador = newOperador;
-    last_number = parseFloat(visor.innerHTML);
-    visor.innerHTML = "";
+
 }
 
 
 
 function clickEquals() {
     var visor = document.getElementById("visor");
-    alert("last: " + last_number + ", visor: " + visor.innerHTML + ", operador: " + operador);
-    last_number = calcule(last_number, parseFloat(visor.innerHTML), operador);
-    if (isNaN(last_number) || (last_number > 99999999)) {
+    alert("last: " + result + ", visor: " + visor.innerHTML + ", operador: " + operador);
+    result = calcule(result, parseFloat(visor.innerHTML), operador);
+    // nenhuma operação realizada
+    if (operador == "") {
+        return;
+    }
+    if (isNaN(result) || (result > 99999999)) {
         visor.innerHTML = ERROR;
     } else {
-        visor.innerHTML = last_number;
+        visor.innerHTML = result;
     }
     operador = "";
 }
@@ -144,7 +174,7 @@ function clickDot() {
  */
 function clickClean() {
     var visor = document.getElementById("visor");
-    visor.innerHTML = "";
+    visor.innerHTML = "0";
 
 }
 
@@ -156,8 +186,8 @@ function clickClean() {
  */
 function clickAllClean() {
     var visor = document.getElementById("visor");
-    visor.innerHTML = "";
-    last_number = "";
+    visor.innerHTML = "0";
+    result = "";
     operador = "";
 }
 
