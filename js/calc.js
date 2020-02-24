@@ -4,7 +4,12 @@ var result = 0;
 const ERROR = "ERR";
 const DECIMAL_PLACES = 2;
 const MAXIMO_DIGITS = 8
-var changeVisor = false;
+var changeVisor = true;
+
+// load and reload page
+window.addEventListener("load", function(event) {
+    visor.innerHTML = "0";
+});
 /**
  * 
  * @param {*} newOperador 
