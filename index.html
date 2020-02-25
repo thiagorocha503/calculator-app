@@ -14,38 +14,42 @@
             <table border="0" cellpadding="30" id="calculadora" aling="center">
                 <tr>
                     <td colspan="4">
-                        <div id="visor" value="0"></div>
+                        <div id="display_padding">
+                            <div id="visor" value="0"></div>
+                        </div>
+
                     </td>
                 </tr>
                 <tr>
-                    <td><input type="button" class="special" value="±" onclick="clickInvert();"></td>
-                    <td><input type="button" class="botao" value="C" onclick="clickClean();"></td>
-                    <td><input type="button" class="botao" value="CE " onclick="clickAllClean()"></td>
-                    <td><input type="button" class="special" value="&#8678;" onclick="clickLeftArrow();"></td>
+                    <td><input type="button" class="button_grey" value="C" onclick="clickClean();"></td>
+                    <td><input type="button" class="button_grey" value="CE " onclick="clickAllClean()"></td>
+                    <td><input type="button" class="left_arrow" value="&#8678;" onclick="clickLeftArrow();"></td>
+                    <td><input type="button" class="button_operador" value="÷" onclick="clickOperador('/')"></td>
                 </tr>
                 <tr>
-                    <td><input type="button" class="botao" value="7" onclick="clickNumberButton(7);"></td>
-                    <td><input type="button" class="botao" value="8" onclick="clickNumberButton(8);"></td>
-                    <td><input type="button" class="botao" value="9" onclick="clickNumberButton(9);"></td>
-                    <td><input type="button" class="botao" value="/ " onclick="clickOperador('/')"></td>
+                    <td><input type="button" value="7" onclick="clickNumberButton(7);"></td>
+                    <td><input type="button" value="8" onclick="clickNumberButton(8);"></td>
+                    <td><input type="button" value="9" onclick="clickNumberButton(9);"></td>
+                    <td><input type="button" class="button_operador" value="×" onclick="clickOperador('*');"></td>
                 </tr>
                 <tr>
-                    <td><input type="button" class="botao" value="4" onclick="clickNumberButton(4);"></td>
-                    <td><input type="button" class="botao" value="5" onclick="clickNumberButton(5);"></td>
-                    <td><input type="button" class="botao" value="6" onclick="clickNumberButton(6);"></td>
-                    <td><input type="button" class="botao" value="* " onclick="clickOperador('*');"></td>
+                    <td><input type="button" value="4" onclick="clickNumberButton(4);"></td>
+                    <td><input type="button" value="5" onclick="clickNumberButton(5);"></td>
+                    <td><input type="button" value="6" onclick="clickNumberButton(6);"></td>
+                    <td><input type="button" class="button_operador" value="-" onclick="clickOperador('-');"></td>
                 </tr>
                 <tr>
-                    <td><input type="button" class="botao" value="1" onclick="clickNumberButton(1);"></td>
-                    <td><input type="button" class="botao" value="2" onclick="clickNumberButton(2);"></td>
-                    <td><input type="button" class="botao" value="3" onclick="clickNumberButton(3);"></td>
-                    <td><input type="button" class="botao" value="-" onclick="clickOperador('-');"></td>
+                    <td><input type="button" value="1" onclick="clickNumberButton(1);"></td>
+                    <td><input type="button" value="2" onclick="clickNumberButton(2);"></td>
+                    <td><input type="button" value="3" onclick="clickNumberButton(3);"></td>
+                    <td><input type="button" class="button_operador" value="+" onclick="clickOperador('+');"></td>
+
                 </tr>
                 <tr>
-                    <td><input type="button" class="botao" value="0" onclick="clickNumberButton(0);"></td>
-                    <td><input type="button" class="botao" value=", " onclick="clickDot()"></td>
-                    <td><input type="button" class="botao" value="=" onclick="clickEquals();"></td>
-                    <td><input type="button" class="botao" value="+" onclick="clickOperador('+');"></td>
+                    <td><input type="button" class="plus_mines" value="±" onclick="clickInvert();"></td>
+                    <td><input type="button" value="0" onclick="clickNumberButton(0);"></td>
+                    <td><input type="button" class="dot" value="." onclick="clickDot()"></td>
+                    <td><input type="button" class="button_operador" value="=" onclick="clickEquals();"></td>
                 </tr>
             </table>
         </form>
