@@ -158,14 +158,18 @@ function clickNumberButton(number) {
     //var message = formatNumber("65432.1");
     //alert(message);
     visor.innerHTML = numberFormatToNumber(visor.innerHTML);
-    if (hasDot(String(visor.innerHTML))) {
-        if ((visor.innerHTML.length <= MAXIMO_DIGITS + 1) && (countDecimalPlaces(String(visor.innerHTML)) < DECIMAL_PLACES)) {
+    if ((visor.innerHTML).indexOf(".") >= 0) {
+        alert("> " + visor.innerHTML);
+        if ((visor.innerHTML.length <= MAXIMO_DIGITS) && (countDecimalPlaces(String(visor.innerHTML)) < DECIMAL_PLACES)) {
+            alert("menor");
             if (visor.innerHTML == "0") {
                 visor.innerHTML = formatNumber(visor.innerHTML + number);
             } else {
                 visor.innerHTML = formatNumber(visor.innerHTML + number);
             }
+            return;
         }
+        visor.innerHTML = formatNumber(visor.innerHTML);
     } else {
         if (visor.innerHTML.length < MAXIMO_DIGITS) {
             if (visor.innerHTML == "0") {
@@ -176,7 +180,6 @@ function clickNumberButton(number) {
             return;
         }
         visor.innerHTML = formatNumber(visor.innerHTML);
-        //alert(visor.innerHTML);
     }
 
 }
@@ -229,7 +232,7 @@ function isValidZero() {
 
 function countDecimalPlaces(text) {
     for (var i = 0; i < text.length; i++) {
-        if (text[i] == ",") {
+        if (text[i] == ".") {
             return (text.length - 1) - i;
         }
     }
