@@ -84,6 +84,51 @@ function clickOperador(newOperador) {
 
 }
 
+function numberFormatToNumber(text) {
+    result = text.replace(".", "");
+    return result.replace(",", ".");
+}
+
+function formatNumber(number) {
+    number_format = "";
+    decimal = "";
+    ponto_index = number.indexOf(".");
+    //alert("text: " + number + ", ponto: " + index);
+
+    if (ponto_index != -1) {
+        decimal = "," + number.slice(ponto_index + 1, number.length);
+        // alert("decimal: " + decimal);
+    }
+    index_for = (ponto_index != -1) ? ponto_index - 1 : number.length - 1;
+    //alert("> " + index_for);
+    cont = 0;
+    for (y = index_for; y >= 0; y--) {
+        // alert("=> " + y);
+        cont += 1;
+        number_format += number[y];
+        if ((cont % 3 == 0 && y != 0)) {
+            //alert("y " + y);
+            number_format += ".";
+        }
+        // alert(number_format);
+
+    }
+    // alert("{ " + number_format);
+    return inverter(number_format) + decimal;
+}
+
+
+function inverter(text) {
+    if (text.length == 1) {
+        return text;
+    }
+    result = "";
+    for (x = text.length - 1; x >= 0; x--) {
+        result += text[x];
+    }
+    return result;
+}
+
 /**
  * Inseri um número na tela
  * 
@@ -107,6 +152,10 @@ function clickNumberButton(number) {
         visor.innerHTML = "";
         changeVisor = false;
     }
+
+    //alert(numberFormatToNumber("3.123,5"));
+    //var message = formatNumber("65432.1");
+    //alert(message);
     if (hasDot(String(visor.innerHTML))) {
         if ((visor.innerHTML.length <= MAXIMO_DIGITS + 1) && (countDecimalPlaces(String(visor.innerHTML)) < DECIMAL_PLACES)) {
             if (visor.innerHTML == "0") {
