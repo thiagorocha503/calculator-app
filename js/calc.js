@@ -21,11 +21,12 @@ function clickLeftArrow() {
     if (visor.innerHTML == "0") {
         return;
     }
+    visor.innerHTML = numberFormatToNumber(visor.innerHTML);
     new_value = visor.innerHTML.substr(0, visor.innerHTML.length - 1);
     if (new_value == "") {
         visor.innerHTML = "0";
     } else {
-        visor.innerHTML = new_value;
+        visor.innerHTML = formatNumber(new_value);
     }
 
 }
@@ -85,7 +86,7 @@ function clickOperador(newOperador) {
 }
 
 function numberFormatToNumber(text) {
-    result = text.replace(".", "");
+    result = text.split(".").join("");
     return result.replace(",", ".");
 }
 
@@ -156,12 +157,13 @@ function clickNumberButton(number) {
     //alert(numberFormatToNumber("3.123,5"));
     //var message = formatNumber("65432.1");
     //alert(message);
+    visor.innerHTML = numberFormatToNumber(visor.innerHTML);
     if (hasDot(String(visor.innerHTML))) {
         if ((visor.innerHTML.length <= MAXIMO_DIGITS + 1) && (countDecimalPlaces(String(visor.innerHTML)) < DECIMAL_PLACES)) {
             if (visor.innerHTML == "0") {
-                visor.innerHTML += number;
+                visor.innerHTML = formatNumber(visor.innerHTML + number);
             } else {
-                visor.innerHTML = visor.innerHTML + number;
+                visor.innerHTML = formatNumber(visor.innerHTML + number);
             }
         }
     } else {
@@ -169,10 +171,12 @@ function clickNumberButton(number) {
             if (visor.innerHTML == "0") {
                 visor.innerHTML = number;
             } else {
-                visor.innerHTML = visor.innerHTML + number;
+                visor.innerHTML = formatNumber(visor.innerHTML + number);
             }
-
+            return;
         }
+        visor.innerHTML = formatNumber(visor.innerHTML);
+        //alert(visor.innerHTML);
     }
 
 }
@@ -225,7 +229,7 @@ function isValidZero() {
 
 function countDecimalPlaces(text) {
     for (var i = 0; i < text.length; i++) {
-        if (text[i] == ".") {
+        if (text[i] == ",") {
             return (text.length - 1) - i;
         }
     }
@@ -236,7 +240,7 @@ function countDecimalPlaces(text) {
 
 function hasDot(text) {
     for (var i = 0; i < text.length; i++) {
-        if (text[i] == ".") {
+        if (text[i] == ",") {
             return true;
         }
     }
@@ -251,10 +255,10 @@ function clickDot() {
     if (!hasDot(String(visor.innerHTML))) {
         // caso nenhum número
         if (visor.innerHTML == "") {
-            visor.innerHTML = "0.";
+            visor.innerHTML = "0,";
             return;
         }
-        visor.innerHTML = (visor.innerHTML + ".");
+        visor.innerHTML = (visor.innerHTML + ",");
     }
 
 }
