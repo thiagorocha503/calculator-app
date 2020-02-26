@@ -15,10 +15,11 @@ function clickInvert() {
 
 }
 
+
 function clickLeftArrow() {
     var visor = document.getElementById("visor");
     // tela com número zero
-    if (visor.innerHTML == "0") {
+    if (visor.innerHTML == "0" || visor.innerHTML == ERROR) {
         return;
     }
     visor.innerHTML = numberFormatToNumber(visor.innerHTML);
@@ -72,7 +73,7 @@ function clickOperador(newOperador) {
     changeVisor = true;
     // operação anterior
     if (operador != "") {
-        //alert("last operador: " + operador);
+        alert("last operador: " + operador);
         var a = parseFloat(result);
         var b = parseFloat(numberFormatToNumber(visor.innerHTML));
         //alert("a: " + a + "b: " + b);
@@ -133,7 +134,6 @@ function clickNumberButton(number) {
     var visor = document.getElementById("visor");
     last_tecla = number;
     // caso ERR, bloqueia insersão
-    //alert(""+number,"");
     if (visor.innerHTML == ERROR) {
         return;
     }
@@ -150,9 +150,7 @@ function clickNumberButton(number) {
     }
     visor.innerHTML = numberFormatToNumber(visor.innerHTML);
     if ((visor.innerHTML).indexOf(".") >= 0) {
-        alert("> " + visor.innerHTML);
         if ((visor.innerHTML.length <= MAXIMO_DIGITS) && (countDecimalPlaces(String(visor.innerHTML)) < DECIMAL_PLACES)) {
-            alert("menor");
             if (visor.innerHTML == "0") {
                 visor.innerHTML = formatNumber(visor.innerHTML + number);
             } else {
@@ -197,6 +195,10 @@ function clickEquals() {
     if (isNaN(result) || (String(result).length > MAXIMO_DIGITS)) {
         visor.innerHTML = ERROR;
     } else {
+        if (result == Infinity) {
+            visor.innerHTML = ERROR;
+            return;
+        }
         //alert("result: " + result + ", form: " + formatNumber(String(result)))
         visor.innerHTML = formatNumber(String(result));
     }
