@@ -74,7 +74,7 @@ function clickOperador(new_operator) {
     changeDisplay = true;
     // operação anterior
     if (operador != "") {
-        alert("last operador: " + operador);
+        //alert("last operador: " + operador);
         var a = parseFloat(result);
         var b = parseFloat(numberFormatToNumber(visor.innerHTML));
         //alert("a: " + a + "b: " + b);
@@ -176,13 +176,16 @@ function clickNumberButton(number) {
 
 function clickEquals() {
     var visor = document.getElementById("visor");
+    // número seguido de operador 
+    if (isOperator(last_key) || result == "") {
+        operador = "";
+        result = "";
+        visor.innerHTML = "0";
+        return;
+    }
     //alert("last: " + result + ", visor: " + parseFloat(numberFormatToNumber(visor.innerHTML)) + ", operador: " + operador);
     result = calcule(result, parseFloat(numberFormatToNumber(visor.innerHTML)), operador);
     changeDisplay = true;
-    // número seguido de operador 
-    if (isOperator(last_key)) {
-        return;
-    }
     // mais de um clique no botão de igual
     if (last_key == "=") {
         visor.innerHTML = "0";
