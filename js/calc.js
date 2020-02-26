@@ -72,49 +72,44 @@ function clickOperador(newOperador) {
     changeVisor = true;
     // operação anterior
     if (operador != "") {
-        //       alert("last operador: " + operador);
+        //alert("last operador: " + operador);
         var a = parseFloat(result);
-        var b = parseFloat(visor.innerHTML);
+        var b = parseFloat(numberFormatToNumber(visor.innerHTML));
+        //alert("a: " + a + "b: " + b);
         result = calcule(a, b, operador);
         return;
     } else {
-        //        alert("operador: " + newOperador);
+        //alert("operador: " + newOperador);
         operador = newOperador;
-        result = parseFloat(visor.innerHTML);
+        new_result = parseFloat(numberFormatToNumber(visor.innerHTML));
+        //alert(new_result);
+        result = new_result;
     }
 
 }
 
 function numberFormatToNumber(text) {
-    result = text.split(".").join("");
-    return result.replace(",", ".");
+    var new_number = text.split(".").join("");
+    return new_number.replace(",", ".");
 }
 
 function formatNumber(number) {
+    number = String(number);
     number_format = "";
     decimal = "";
     ponto_index = number.indexOf(".");
-    //alert("text: " + number + ", ponto: " + index);
-
     if (ponto_index != -1) {
         decimal = "," + number.slice(ponto_index + 1, number.length);
-        // alert("decimal: " + decimal);
     }
     index_for = (ponto_index != -1) ? ponto_index - 1 : number.length - 1;
-    //alert("> " + index_for);
     cont = 0;
     for (y = index_for; y >= 0; y--) {
-        // alert("=> " + y);
         cont += 1;
         number_format += number[y];
         if ((cont % 3 == 0 && y != 0)) {
-            //alert("y " + y);
             number_format += ".";
         }
-        // alert(number_format);
-
     }
-    // alert("{ " + number_format);
     return inverter(number_format) + decimal;
 }
 
@@ -123,11 +118,11 @@ function inverter(text) {
     if (text.length == 1) {
         return text;
     }
-    result = "";
+    new_text = "";
     for (x = text.length - 1; x >= 0; x--) {
-        result += text[x];
+        new_text += text[x];
     }
-    return result;
+    return new_text;
 }
 
 /**
@@ -153,10 +148,6 @@ function clickNumberButton(number) {
         visor.innerHTML = "";
         changeVisor = false;
     }
-
-    //alert(numberFormatToNumber("3.123,5"));
-    //var message = formatNumber("65432.1");
-    //alert(message);
     visor.innerHTML = numberFormatToNumber(visor.innerHTML);
     if ((visor.innerHTML).indexOf(".") >= 0) {
         alert("> " + visor.innerHTML);
@@ -186,8 +177,8 @@ function clickNumberButton(number) {
 
 function clickEquals() {
     var visor = document.getElementById("visor");
-    //    alert("last: " + result + ", visor: " + visor.innerHTML + ", operador: " + operador);
-    result = calcule(result, parseFloat(visor.innerHTML), operador);
+    //alert("last: " + result + ", visor: " + parseFloat(numberFormatToNumber(visor.innerHTML)) + ", operador: " + operador);
+    result = calcule(result, parseFloat(numberFormatToNumber(visor.innerHTML)), operador);
     changeVisor = true;
     // número seguido de operador 
     if (isOperador(last_tecla)) {
@@ -206,7 +197,8 @@ function clickEquals() {
     if (isNaN(result) || (String(result).length > MAXIMO_DIGITS)) {
         visor.innerHTML = ERROR;
     } else {
-        visor.innerHTML = result;
+        //alert("result: " + result + ", form: " + formatNumber(String(result)))
+        visor.innerHTML = formatNumber(String(result));
     }
     operador = "";
 }
