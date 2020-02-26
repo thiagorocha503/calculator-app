@@ -1,4 +1,4 @@
-var operador = "";
+var operator = "";
 var last_key = "";
 var result = 0;
 const ERROR_MESSAGE = "ERR";
@@ -10,6 +10,9 @@ var changeDisplay = true;
  * Inverter sinal do número
  */
 function clickInvert() {
+    if (visor.innerHTML == ERROR_MESSAGE) {
+        return;
+    }
     var visor = document.getElementById("visor");
     var invert_result = (-1) * parseFloat(numberFormatToNumber(visor.innerHTML));
     visor.innerHTML = numberToNumberFormat(invert_result);
@@ -63,7 +66,7 @@ function clickOperador(new_operator) {
         return;
     }
     if (isOperator(last_key)) {
-        operador = new_operator;
+        operator = new_operator;
         last_key = new_operator;
         changeDisplay = true;
         return;
@@ -73,16 +76,16 @@ function clickOperador(new_operator) {
     last_key = new_operator;
     changeDisplay = true;
     // operação anterior
-    if (operador != "") {
-        //alert("last operador: " + operador);
+    if (operator != "") {
+        //alert("last operator: " + operator);
         var a = parseFloat(result);
         var b = parseFloat(numberFormatToNumber(visor.innerHTML));
         //alert("a: " + a + "b: " + b);
-        result = calcule(a, b, operador);
+        result = calcule(a, b, operator);
         return;
     } else {
-        //alert("operador: " + new_operator);
-        operador = new_operator;
+        //alert("operator: " + new_operator);
+        operator = new_operator;
         new_result = parseFloat(numberFormatToNumber(visor.innerHTML));
         //alert(new_result);
         result = new_result;
@@ -178,13 +181,17 @@ function clickEquals() {
     var visor = document.getElementById("visor");
     // número seguido de operador 
     if (isOperator(last_key) || result == "") {
-        operador = "";
+        operator = "";
         result = "";
         visor.innerHTML = "0";
         return;
     }
-    //alert("last: " + result + ", visor: " + parseFloat(numberFormatToNumber(visor.innerHTML)) + ", operador: " + operador);
-    result = calcule(result, parseFloat(numberFormatToNumber(visor.innerHTML)), operador);
+    // após uma operação com erro
+    if (visor.innerHTML == ERROR_MESSAGE) {
+        return;
+    }
+    //alert("last: " + result + ", visor: " + parseFloat(numberFormatToNumber(visor.innerHTML)) + ", operator: " + operator);
+    result = calcule(result, parseFloat(numberFormatToNumber(visor.innerHTML)), operator);
     changeDisplay = true;
     // mais de um clique no botão de igual
     if (last_key == "=") {
@@ -192,7 +199,7 @@ function clickEquals() {
         return;
     }
     // nenhuma operação realizada
-    if (operador == "") {
+    if (operator == "") {
         return;
     }
     last_key = "=";
@@ -206,7 +213,7 @@ function clickEquals() {
         //alert("result: " + result + ", form: " + numberToNumberFormat(String(result)))
         visor.innerHTML = numberToNumberFormat(String(result));
     }
-    operador = "";
+    operator = "";
 }
 
 function isValidZero() {
@@ -277,7 +284,7 @@ function clickDot() {
 function clickClean() {
     var visor = document.getElementById("visor");
     if (isOperator(last_key)) {
-        operador = "";
+        operator = "";
         visor.innerHTML = result;
     } else if (last_key == "=") {
         visor.innerHTML = "0";
@@ -298,12 +305,12 @@ function clickAllClean() {
     var visor = document.getElementById("visor");
     visor.innerHTML = "0";
     result = "";
-    operador = "";
+    operator = "";
 }
 
-function calcule(a, b, operador) {
+function calcule(a, b, operator) {
     var visor = document.getElementById("visor");
-    switch (operador) {
+    switch (operator) {
         case "+":
             return a + b;
         case "-":
