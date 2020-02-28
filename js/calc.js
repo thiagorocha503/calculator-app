@@ -236,23 +236,18 @@ function isValidZero() {
 }
 
 function countDecimalPlaces(text) {
-    for (var i = 0; i < text.length; i++) {
-        if (text[i] == ".") {
-            return (text.length - 1) - i;
-        }
+    let index_dot_2 = text.indexOf(".");
+    if (index_dot_2 == -1) {
+        return 0;
+    } else {
+        return (text.length - 1) - index_dot_2;
     }
-    return 0;
 }
 
 
 
 function hasDot(text) {
-    for (var i = 0; i < text.length; i++) {
-        if (text[i] == ",") {
-            return true;
-        }
-    }
-    return false;
+    return (text.indexOf(",") == -1) ? false : true;
 }
 
 /**
