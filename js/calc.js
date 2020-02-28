@@ -1,31 +1,37 @@
-var operador = "";
-var last_tecla = "";
+var operator = "";
+var last_key = "";
 var result = 0;
-const ERROR = "ERR";
+const ERROR_MESSAGE = "ERR";
 const DECIMAL_PLACES = 3;
 const MAXIMO_DIGITS = 8
-var changeVisor = true;
+var changeDisplay = true;
 
 /**
  * Inverter sinal do número
  */
 function clickInvert() {
+    if (visor.innerHTML == ERROR_MESSAGE) {
+        return;
+    }
     var visor = document.getElementById("visor");
-    visor.innerHTML = (-1) * parseFloat(visor.innerHTML);
+    var invert_result = (-1) * parseFloat(numberFormatToNumber(visor.innerHTML));
+    visor.innerHTML = numberToNumberFormat(invert_result);
 
 }
+
 
 function clickLeftArrow() {
     var visor = document.getElementById("visor");
     // tela com número zero
-    if (visor.innerHTML == "0") {
+    if (visor.innerHTML == "0" || visor.innerHTML == ERROR_MESSAGE) {
         return;
     }
+    visor.innerHTML = numberFormatToNumber(visor.innerHTML);
     new_value = visor.innerHTML.substr(0, visor.innerHTML.length - 1);
     if (new_value == "") {
         visor.innerHTML = "0";
     } else {
-        visor.innerHTML = new_value;
+        visor.innerHTML = numberToNumberFormat(new_value);
     }
 
 }
@@ -37,10 +43,10 @@ window.addEventListener("load", function(event) {
 });
 /**
  * 
- * @param {*} newOperador 
+ * @param {*} new_operator 
  */
 
-function isOperador(a) {
+function isOperator(a) {
     if (a == "+") {
         return true;
     } else if (a == "-") {
@@ -53,35 +59,75 @@ function isOperador(a) {
     return false;
 }
 
-function clickOperador(newOperador) {
+function clickOperador(new_operator) {
     var visor = document.getElementById("visor");
     // caso ERR, bloqueia insersão
-    if (visor.innerHTML == ERROR) {
+    if (visor.innerHTML == ERROR_MESSAGE) {
         return;
     }
-    if (isOperador(last_tecla)) {
-        operador = newOperador;
-        last_tecla = newOperador;
-        changeVisor = true;
+    if (isOperator(last_key)) {
+        operator = new_operator;
+        last_key = new_operator;
+        changeDisplay = true;
         return;
     }
 
 
-    last_tecla = newOperador;
-    changeVisor = true;
+    last_key = new_operator;
+    changeDisplay = true;
     // operação anterior
-    if (operador != "") {
-        //       alert("last operador: " + operador);
+    if (operator != "") {
+        //alert("last operator: " + operator);
         var a = parseFloat(result);
-        var b = parseFloat(visor.innerHTML);
-        result = calcule(a, b, operador);
+        var b = parseFloat(numberFormatToNumber(visor.innerHTML));
+        //alert("a: " + a + "b: " + b);
+        result = calcule(a, b, operator);
         return;
     } else {
-        //        alert("operador: " + newOperador);
-        operador = newOperador;
-        result = parseFloat(visor.innerHTML);
+        //alert("operator: " + new_operator);
+        operator = new_operator;
+        new_result = parseFloat(numberFormatToNumber(visor.innerHTML));
+        //alert(new_result);
+        result = new_result;
     }
 
+}
+
+function numberFormatToNumber(text) {
+    var new_number = text.split(".").join("");
+    return new_number.replace(",", ".");
+}
+
+function numberToNumberFormat(number) {
+    number = String(number);
+    number_format = "";
+    decimal = "";
+    dot_index = number.indexOf(".");
+    if (dot_index != -1) {
+        decimal = "," + number.slice(dot_index + 1, number.length);
+    }
+    index_for = (dot_index != -1) ? dot_index - 1 : number.length - 1;
+    cont = 0;
+    for (y = index_for; y >= 0; y--) {
+        cont += 1;
+        number_format += number[y];
+        if ((cont % 3 == 0 && y != 0)) {
+            number_format += ".";
+        }
+    }
+    return inverter(number_format) + decimal;
+}
+
+
+function inverter(text) {
+    if (text.length == 1) {
+        return text;
+    }
+    new_text = "";
+    for (x = text.length - 1; x >= 0; x--) {
+        new_text += text[x];
+    }
+    return new_text;
 }
 
 /**
@@ -90,10 +136,9 @@ function clickOperador(newOperador) {
  */
 function clickNumberButton(number) {
     var visor = document.getElementById("visor");
-    last_tecla = number;
+    last_key = number;
     // caso ERR, bloqueia insersão
-    //alert(""+number,"");
-    if (visor.innerHTML == ERROR) {
+    if (visor.innerHTML == ERROR_MESSAGE) {
         return;
     }
     // verifica se numero zero é válido
@@ -103,56 +148,72 @@ function clickNumberButton(number) {
         }
     }
     // verifica quantidade de digitos
-    if (changeVisor) {
+    if (changeDisplay) {
         visor.innerHTML = "";
-        changeVisor = false;
+        changeDisplay = false;
     }
-    if (hasDot(String(visor.innerHTML))) {
-        if ((visor.innerHTML.length <= MAXIMO_DIGITS + 1) && (countDecimalPlaces(String(visor.innerHTML)) < DECIMAL_PLACES)) {
+    visor.innerHTML = numberFormatToNumber(visor.innerHTML);
+    if ((visor.innerHTML).indexOf(".") >= 0) {
+        if ((visor.innerHTML.length <= MAXIMO_DIGITS) && (countDecimalPlaces(String(visor.innerHTML)) < DECIMAL_PLACES)) {
             if (visor.innerHTML == "0") {
-                visor.innerHTML += number;
+                visor.innerHTML = numberToNumberFormat(visor.innerHTML + number);
             } else {
-                visor.innerHTML = visor.innerHTML + number;
+                visor.innerHTML = numberToNumberFormat(visor.innerHTML + number);
             }
+            return;
         }
+        visor.innerHTML = numberToNumberFormat(visor.innerHTML);
     } else {
         if (visor.innerHTML.length < MAXIMO_DIGITS) {
             if (visor.innerHTML == "0") {
                 visor.innerHTML = number;
             } else {
-                visor.innerHTML = visor.innerHTML + number;
+                visor.innerHTML = numberToNumberFormat(visor.innerHTML + number);
             }
-
+            return;
         }
+        visor.innerHTML = numberToNumberFormat(visor.innerHTML);
     }
 
 }
 
 function clickEquals() {
     var visor = document.getElementById("visor");
-    //    alert("last: " + result + ", visor: " + visor.innerHTML + ", operador: " + operador);
-    result = calcule(result, parseFloat(visor.innerHTML), operador);
-    changeVisor = true;
     // número seguido de operador 
-    if (isOperador(last_tecla)) {
+    if (isOperator(last_key) || result == "") {
+        operator = "";
+        result = "";
+        visor.innerHTML = "0";
         return;
     }
+    // após uma operação com erro
+    if (visor.innerHTML == ERROR_MESSAGE) {
+        return;
+    }
+    //alert("last: " + result + ", visor: " + parseFloat(numberFormatToNumber(visor.innerHTML)) + ", operator: " + operator);
+    result = calcule(result, parseFloat(numberFormatToNumber(visor.innerHTML)), operator);
+    changeDisplay = true;
     // mais de um clique no botão de igual
-    if (last_tecla == "=") {
+    if (last_key == "=") {
         visor.innerHTML = "0";
         return;
     }
     // nenhuma operação realizada
-    if (operador == "") {
+    if (operator == "") {
         return;
     }
-    last_tecla = "=";
+    last_key = "=";
     if (isNaN(result) || (String(result).length > MAXIMO_DIGITS)) {
-        visor.innerHTML = ERROR;
+        visor.innerHTML = ERROR_MESSAGE;
     } else {
-        visor.innerHTML = result;
+        if (result == Infinity) {
+            visor.innerHTML = ERROR_MESSAGE;
+            return;
+        }
+        //alert("result: " + result + ", form: " + numberToNumberFormat(String(result)))
+        visor.innerHTML = numberToNumberFormat(String(result));
     }
-    operador = "";
+    operator = "";
 }
 
 function isValidZero() {
@@ -187,7 +248,7 @@ function countDecimalPlaces(text) {
 
 function hasDot(text) {
     for (var i = 0; i < text.length; i++) {
-        if (text[i] == ".") {
+        if (text[i] == ",") {
             return true;
         }
     }
@@ -199,13 +260,18 @@ function hasDot(text) {
  */
 function clickDot() {
     var visor = document.getElementById("visor");
+    var visor = document.getElementById("visor");
+    //bloqueia inserção
+    if (visor.innerHTML == ERROR_MESSAGE) {
+        return;
+    }
     if (!hasDot(String(visor.innerHTML))) {
         // caso nenhum número
         if (visor.innerHTML == "") {
-            visor.innerHTML = "0.";
+            visor.innerHTML = "0,";
             return;
         }
-        visor.innerHTML = (visor.innerHTML + ".");
+        visor.innerHTML = (visor.innerHTML + ",");
     }
 
 }
@@ -217,10 +283,10 @@ function clickDot() {
  */
 function clickClean() {
     var visor = document.getElementById("visor");
-    if (isOperador(last_tecla)) {
-        operador = "";
+    if (isOperator(last_key)) {
+        operator = "";
         visor.innerHTML = result;
-    } else if (last_tecla == "=") {
+    } else if (last_key == "=") {
         visor.innerHTML = "0";
         result = "";
     } else {
@@ -239,12 +305,12 @@ function clickAllClean() {
     var visor = document.getElementById("visor");
     visor.innerHTML = "0";
     result = "";
-    operador = "";
+    operator = "";
 }
 
-function calcule(a, b, operador) {
+function calcule(a, b, operator) {
     var visor = document.getElementById("visor");
-    switch (operador) {
+    switch (operator) {
         case "+":
             return a + b;
         case "-":
