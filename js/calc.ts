@@ -1,28 +1,32 @@
-var operator = "";
-var last_key = "";
-var result = NaN;
-var ERROR_MESSAGE = "ERR";
-var DECIMAL_PLACES = 3;
-var MAXIMO_DIGITS = 8;
-var changeDisplay = true;
+var operator: string = "";
+var last_key: string = "";
+var result: number = NaN;
+const ERROR_MESSAGE: string = "ERR";
+const DECIMAL_PLACES: number = 3;
+const MAXIMO_DIGITS: number = 8
+var changeDisplay: boolean = true;
+
 /**
  * Inverter sinal do número
  */
 function clickInvert() {
-    var visor = document.getElementById("visor");
-    if (visor == null) {
+    let visor: Element|null = document.getElementById("visor");
+    if(visor == null){
         console.log("Click_invert visor null");
         return;
     }
     if (visor.innerHTML == ERROR_MESSAGE) {
         return;
-    }
-    var result_invert = (-1) * parseFloat(numberFormatToNumber(visor.innerHTML));
+    }    
+    let result_invert: number = (-1) * parseFloat(numberFormatToNumber(visor.innerHTML));
     visor.innerHTML = numberToNumberFormat(String(result_invert));
+
 }
+
+
 function clickLeftArrow() {
-    var visor = document.getElementById("visor");
-    if (visor == null) {
+    let visor: HTMLElement| null = document.getElementById("visor");
+    if(visor == null){
         return;
     }
     // tela com número zero
@@ -30,44 +34,44 @@ function clickLeftArrow() {
         return;
     }
     visor.innerHTML = numberFormatToNumber(visor.innerHTML);
-    var new_value = visor.innerHTML.substr(0, visor.innerHTML.length - 1);
+    let new_value: string = visor.innerHTML.substr(0, visor.innerHTML.length - 1);
     if (new_value == "") {
         visor.innerHTML = "0";
-    }
-    else {
+    } else {
         visor.innerHTML = numberToNumberFormat(new_value);
     }
+
 }
+
 // load and reload page
-window.addEventListener("load", function (event) {
-    var visor = document.getElementById("visor");
-    if (visor == null) {
+window.addEventListener("load", function(event) {
+    let visor: HTMLElement|null = document.getElementById("visor");
+    if(visor == null){
         return;
     }
     visor.innerHTML = "0";
 });
 /**
- *
- * @param {*} new_operator
+ * 
+ * @param {*} new_operator 
  */
-function isOperator(a) {
+
+function isOperator(a: string) {
     if (a == "+") {
         return true;
-    }
-    else if (a == "-") {
+    } else if (a == "-") {
         return true;
-    }
-    else if (a == "*") {
+    } else if (a == "*") {
         return true;
-    }
-    else if (a == "/") {
+    } else if (a == "/") {
         return true;
     }
     return false;
 }
-function clickOperador(new_operator) {
-    var visor = document.getElementById("visor");
-    if (visor == null) {
+
+function clickOperador(new_operator: string) {
+    let visor: HTMLElement|null = document.getElementById("visor");
+    if(visor == null){
         return;
     }
     // caso ERR, bloqueia insersão
@@ -84,32 +88,34 @@ function clickOperador(new_operator) {
     changeDisplay = true;
     // operação anterior
     if (operator != "") {
-        var a = result;
-        var b = parseFloat(numberFormatToNumber(visor.innerHTML));
+        let a: number = result;
+        let b: number = parseFloat(numberFormatToNumber(visor.innerHTML));
         result = calcule(a, b, operator);
         return;
-    }
-    else {
+    } else {
         operator = new_operator;
-        var new_result = parseFloat(numberFormatToNumber(visor.innerHTML));
+        let new_result = parseFloat(numberFormatToNumber(visor.innerHTML));
         result = new_result;
     }
+
 }
-function numberFormatToNumber(text) {
-    var new_number = text.split(".").join("");
+
+function numberFormatToNumber(text: string) {
+    let new_number: string = text.split(".").join("");
     return new_number.replace(",", ".");
 }
-function numberToNumberFormat(number_) {
+
+function numberToNumberFormat(number_: string) {
     number_ = String(number_);
-    var number_format = "";
-    var decimal = "";
-    var dot_index = number_.indexOf(".");
+    let number_format: string = "";
+    let decimal: string = "";
+    let dot_index: number = number_.indexOf(".");
     if (dot_index != -1) {
         decimal = "," + number_.slice(dot_index + 1, number_.length);
     }
-    var index_for = (dot_index != -1) ? dot_index - 1 : number_.length - 1;
-    var cont = 0;
-    for (var y = index_for; y >= 0; y--) {
+    let index_for: number = (dot_index != -1) ? dot_index - 1 : number_.length - 1;
+    let cont: number = 0;
+    for (let y = index_for; y >= 0; y--) {
         cont += 1;
         number_format += number_[y];
         if ((cont % 3 == 0 && y != 0)) {
@@ -118,24 +124,27 @@ function numberToNumberFormat(number_) {
     }
     return inverter(number_format) + decimal;
 }
-function inverter(text) {
+
+
+function inverter(text: string): string {
     if (text.length == 1) {
         return text;
     }
-    var new_text = "";
-    for (var x = text.length - 1; x >= 0; x--) {
+    let new_text = "";
+    for (let x: number = text.length - 1; x >= 0; x--) {
         new_text += text[x];
     }
     return new_text;
 }
+
 /**
  * Inseri um número na tela
- *
+ * 
  */
-function clickNumberButton(number) {
-    var visor = document.getElementById("visor");
+function clickNumberButton(number: string) {
+    let visor: HTMLElement|null = document.getElementById("visor");
     last_key = number;
-    if (visor == null) {
+    if(visor == null){
         return;
     }
     // caso ERR, bloqueia insersão
@@ -158,32 +167,31 @@ function clickNumberButton(number) {
         if ((visor.innerHTML.length <= MAXIMO_DIGITS) && (countDecimalPlaces(String(visor.innerHTML)) < DECIMAL_PLACES)) {
             if (visor.innerHTML == "0") {
                 visor.innerHTML = numberToNumberFormat(visor.innerHTML + number);
-            }
-            else {
+            } else {
                 visor.innerHTML = numberToNumberFormat(visor.innerHTML + number);
             }
             return;
         }
         visor.innerHTML = numberToNumberFormat(visor.innerHTML);
-    }
-    else {
+    } else {
         if (visor.innerHTML.length < MAXIMO_DIGITS) {
             if (visor.innerHTML == "0") {
                 visor.innerHTML = number;
-            }
-            else {
+            } else {
                 visor.innerHTML = numberToNumberFormat(visor.innerHTML + number);
             }
             return;
         }
         visor.innerHTML = numberToNumberFormat(visor.innerHTML);
     }
+
 }
+
 function clickEquals() {
-    var visor = document.getElementById("visor");
-    if (visor == null) {
+    let visor: HTMLElement| null = document.getElementById("visor");
+    if(visor == null){
         return;
-    }
+    } 
     // número seguido de operador 
     if (isOperator(last_key) || result == NaN) {
         operator = "";
@@ -210,8 +218,7 @@ function clickEquals() {
     last_key = "=";
     if (isNaN(result) || (String(result).length > MAXIMO_DIGITS)) {
         visor.innerHTML = ERROR_MESSAGE;
-    }
-    else {
+    } else {
         if (result == Infinity || result == NaN) {
             visor.innerHTML = ERROR_MESSAGE;
             return;
@@ -220,48 +227,52 @@ function clickEquals() {
     }
     operator = "";
 }
+
 function isValidZero() {
-    var visor = document.getElementById("visor");
-    if (visor == null) {
+    let visor: HTMLElement|null = document.getElementById("visor");
+    if(visor == null){
         return;
-    }
+    } 
     // tela vazia
     if (visor.innerHTML.length == 0) {
         return true;
-    }
-    else {
+    } else {
         // caso decimal
         if (hasDot(String(visor.innerHTML))) {
             return true;
         }
         if (visor.innerHTML[0] == "0") {
-            return false;
-        }
-        else {
+            return false
+        } else {
             return true;
         }
     }
+
 }
-function countDecimalPlaces(text) {
-    var index_dot = text.indexOf(".");
+
+function countDecimalPlaces(text: string) {
+    let index_dot: number = text.indexOf("."); 
     if (index_dot == -1) {
         return 0;
-    }
-    else {
+    } else {
         return (text.length - 1) - index_dot;
     }
 }
-function hasDot(text) {
+
+
+
+function hasDot(text: string) {
     return (text.indexOf(",") == -1) ? false : true;
 }
+
 /**
  * Retorna a quantidade de casas decimais do número no visor
  */
 function clickDot() {
-    var visor = document.getElementById("visor");
-    if (visor == null) {
+    let visor: HTMLElement| null = document.getElementById("visor");
+    if(visor == null){
         return;
-    }
+    } 
     //bloqueia inserção
     if (visor.innerHTML == ERROR_MESSAGE) {
         return;
@@ -274,15 +285,17 @@ function clickDot() {
         }
         visor.innerHTML = (visor.innerHTML + ",");
     }
+
 }
+
 /**
  * Limpa tela
- *
+ * 
  * Limpa valor atual da tela
  */
 function clickClean() {
-    var visor = document.getElementById("visor");
-    if (visor == null) {
+    let visor: HTMLElement| null = document.getElementById("visor");
+    if(visor == null){
         return;
     }
     if (visor.innerHTML == ERROR_MESSAGE) {
@@ -291,31 +304,33 @@ function clickClean() {
     if (isOperator(last_key)) {
         operator = "";
         visor.innerHTML = String(result);
-    }
-    else if (last_key == "=") {
+    } else if (last_key == "=") {
         visor.innerHTML = "0";
         result = NaN;
-    }
-    else {
+    } else {
         visor.innerHTML = "0";
     }
+
 }
+
 /**
  * Limpa operação
- *
+ * 
  * Limpa o valor atual da tela e resultados anterior
- *
+ * 
  */
 function clickAllClean() {
-    var visor = document.getElementById("visor");
-    if (visor == null) {
+    let visor: HTMLElement| null = document.getElementById("visor");
+    if(visor == null){
         return;
     }
     visor.innerHTML = "0";
     result = NaN;
     operator = "";
 }
-function calcule(a, b, operator) {
+
+
+function calcule(a: number, b: number, operator: string): number{
     switch (operator) {
         case "+":
             return a + b;
