@@ -85,6 +85,11 @@ function clickLeftArrow() {
     if (new_value == "") {
         visor.innerHTML = "0";
     } else {
+        //console.log("leftRow: new value> "+new_value);
+        if(new_value == "-"){
+            visor.innerHTML = "0";
+            return;
+        }
         visor.innerHTML = numberToNumberFormat(new_value);
     }
 
