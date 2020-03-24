@@ -6,10 +6,10 @@ var ERROR_MESSAGE = "ERR";
 var DECIMAL_PLACES = 3;
 var MAXIMO_DIGITS = 8;
 var NUMBERS = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+var OPERATORS = ["-", "+", "/", "*"];
 var ENTER_KEY = 13;
 var BACKSPACE_KEY = 8;
-5;
-//
+//------------------------------ Events
 window.addEventListener("keydown", function (event) {
     console.log("key code: " + event.keyCode + ", key char: " + event.key);
     if (isOperator(event.key)) {
@@ -28,8 +28,26 @@ window.addEventListener("keydown", function (event) {
         clickLeftArrow();
     }
 });
+// load and reload page
+window.addEventListener("load", function (event) {
+    var visor = document.getElementById("visor");
+    if (visor == null) {
+        return;
+    }
+    visor.innerHTML = "0";
+});
+//-----------------------------------------------------
 function isNumber(text) {
-    if (text in NUMBERS) {
+    if (NUMBERS.indexOf(text) != -1) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+//
+function isOperator(text) {
+    if (OPERATORS.indexOf(text) != -1) {
         return true;
     }
     else {
@@ -69,30 +87,7 @@ function clickLeftArrow() {
         visor.innerHTML = numberToNumberFormat(new_value);
     }
 }
-// load and reload page
-window.addEventListener("load", function (event) {
-    var visor = document.getElementById("visor");
-    if (visor == null) {
-        return;
-    }
-    visor.innerHTML = "0";
-});
 //
-function isOperator(a) {
-    if (a == "+") {
-        return true;
-    }
-    else if (a == "-") {
-        return true;
-    }
-    else if (a == "*") {
-        return true;
-    }
-    else if (a == "/") {
-        return true;
-    }
-    return false;
-}
 function clickOperador(new_operator) {
     var visor = document.getElementById("visor");
     if (visor == null) {
