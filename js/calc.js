@@ -84,7 +84,7 @@ function clickLeftArrow() {
         visor.innerHTML = "0";
     }
     else {
-        console.log("leftRow: new value> " + new_value);
+        //console.log("leftRow: new value> "+new_value);
         if (new_value == "-") {
             visor.innerHTML = "0";
             return;

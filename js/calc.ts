@@ -11,42 +11,44 @@ const NUMBERS: Array<string> = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"
 const OPERATORS: Array<string> = ["-", "+", "/", "*"];
 const ENTER_KEY: number = 13;
 const BACKSPACE_KEY: number = 8;
+
+
 //------------------------------ Events
-window.addEventListener("keydown",function(event){
-    console.log("key code: "+event.keyCode+", key char: "+event.key);
-    if(isOperator(event.key)){
+window.addEventListener("keydown", function (event) {
+    console.log("key code: " + event.keyCode + ", key char: " + event.key);
+    if (isOperator(event.key)) {
         clickOperador(event.key);
-    } else if (isNumber(event.key)){
+    } else if (isNumber(event.key)) {
         clickNumberButton(event.key);
-    } else if (event.key == "."){
+    } else if (event.key == ".") {
         clickDot();
-    } else if(event.keyCode == ENTER_KEY){
+    } else if (event.keyCode == ENTER_KEY) {
         clickEquals();
-    } else if(event.keyCode == BACKSPACE_KEY){
+    } else if (event.keyCode == BACKSPACE_KEY) {
         clickLeftArrow();
     }
 });
 
 // load and reload page
-window.addEventListener("load", function(event){
-    let visor: HTMLElement|null = document.getElementById("visor");
-    if(visor == null){
+window.addEventListener("load", function (event) {
+    let visor: HTMLElement | null = document.getElementById("visor");
+    if (visor == null) {
         return;
     }
     visor.innerHTML = "0";
 });
 
 //-----------------------------------------------------
-function isNumber(text: string): boolean{
-    if(NUMBERS.indexOf(text) != -1){
+function isNumber(text: string): boolean {
+    if (NUMBERS.indexOf(text) != -1) {
         return true;
-    } else{
+    } else {
         return false;
     }
 }
 //
 function isOperator(text: string): boolean {
-    if (OPERATORS.indexOf(text) != -1){
+    if (OPERATORS.indexOf(text) != -1) {
         return true;
     } else {
         return false;
@@ -57,14 +59,14 @@ function isOperator(text: string): boolean {
  * Inverter sinal do número
  */
 function clickInvert() {
-    let visor: Element|null = document.getElementById("visor");
-    if(visor == null){
+    let visor: Element | null = document.getElementById("visor");
+    if (visor == null) {
         console.log("Click_invert visor null");
         return;
     }
     if (visor.innerHTML == ERROR_MESSAGE) {
         return;
-    }    
+    }
     let result_invert: number = (-1) * parseFloat(numberFormatToNumber(visor.innerHTML));
     visor.innerHTML = numberToNumberFormat(String(result_invert));
 
@@ -72,8 +74,8 @@ function clickInvert() {
 
 
 function clickLeftArrow() {
-    let visor: HTMLElement| null = document.getElementById("visor");
-    if(visor == null){
+    let visor: HTMLElement | null = document.getElementById("visor");
+    if (visor == null) {
         return;
     }
     // tela com número zero
@@ -86,7 +88,7 @@ function clickLeftArrow() {
         visor.innerHTML = "0";
     } else {
         //console.log("leftRow: new value> "+new_value);
-        if(new_value == "-"){
+        if (new_value == "-") {
             visor.innerHTML = "0";
             return;
         }
@@ -96,8 +98,8 @@ function clickLeftArrow() {
 }
 //
 function clickOperador(new_operator: string) {
-    let visor: HTMLElement|null = document.getElementById("visor");
-    if(visor == null){
+    let visor: HTMLElement | null = document.getElementById("visor");
+    if (visor == null) {
         return;
     }
     // caso ERR, bloqueia insersão
@@ -133,9 +135,9 @@ function numberFormatToNumber(text: string): string {
 
 function numberToNumberFormat(number_: string): string {
     let isNegativeNumber: boolean = false;
-    if(number_.indexOf("-") != -1){
+    if (number_.indexOf("-") != -1) {
         isNegativeNumber = true;
-        number_ = number_.replace("-","");
+        number_ = number_.replace("-", "");
     }
 
     let number_format: string = "";
@@ -153,9 +155,9 @@ function numberToNumberFormat(number_: string): string {
             number_format += ".";
         }
     }
-    let result: string =  inverter(number_format) + decimal;
-    console.log("result> "+result);
-    return isNegativeNumber?"-"+result: result;
+    let result: string = inverter(number_format) + decimal;
+    console.log("result> " + result);
+    return isNegativeNumber ? "-" + result : result;
 }
 
 
@@ -175,9 +177,9 @@ function inverter(text: string): string {
  * 
  */
 function clickNumberButton(number: string) {
-    let visor: HTMLElement|null = document.getElementById("visor");
+    let visor: HTMLElement | null = document.getElementById("visor");
     last_key = number;
-    if(visor == null){
+    if (visor == null) {
         return;
     }
     // caso ERR, bloqueia insersão
@@ -221,10 +223,10 @@ function clickNumberButton(number: string) {
 }
 
 function clickEquals() {
-    let visor: HTMLElement| null = document.getElementById("visor");
-    if(visor == null){
+    let visor: HTMLElement | null = document.getElementById("visor");
+    if (visor == null) {
         return;
-    } 
+    }
     // número seguido de operador 
     if (isOperator(last_key) || result == NaN) {
         operator = "";
@@ -261,11 +263,11 @@ function clickEquals() {
     operator = "";
 }
 
-function isValidZero(): boolean{
-    let visor: HTMLElement|null = document.getElementById("visor");
-    if(visor == null){
+function isValidZero(): boolean {
+    let visor: HTMLElement | null = document.getElementById("visor");
+    if (visor == null) {
         return;
-    } 
+    }
     // tela vazia
     if (visor.innerHTML.length == 0) {
         return true;
@@ -286,8 +288,8 @@ function isValidZero(): boolean{
 /**
  * Retorna a quantidade de casas decimais do número no visor
  */
-function countDecimalPlaces(text: string): number{
-    let index_dot: number = text.indexOf("."); 
+function countDecimalPlaces(text: string): number {
+    let index_dot: number = text.indexOf(".");
     if (index_dot == -1) {
         return 0;
     } else {
@@ -297,16 +299,16 @@ function countDecimalPlaces(text: string): number{
 
 
 
-function hasDot(text: string): boolean{
+function hasDot(text: string): boolean {
     return (text.indexOf(",") == -1) ? false : true;
 }
 
 
 function clickDot() {
-    let visor: HTMLElement| null = document.getElementById("visor");
-    if(visor == null){
+    let visor: HTMLElement | null = document.getElementById("visor");
+    if (visor == null) {
         return;
-    } 
+    }
     //bloqueia inserção
     if (visor.innerHTML == ERROR_MESSAGE) {
         return;
@@ -328,8 +330,8 @@ function clickDot() {
  * Limpa valor atual da tela
  */
 function clickClean() {
-    let visor: HTMLElement| null = document.getElementById("visor");
-    if(visor == null){
+    let visor: HTMLElement | null = document.getElementById("visor");
+    if (visor == null) {
         return;
     }
     if (visor.innerHTML == ERROR_MESSAGE) {
@@ -354,8 +356,8 @@ function clickClean() {
  * 
  */
 function clickAllClean() {
-    let visor: HTMLElement| null = document.getElementById("visor");
-    if(visor == null){
+    let visor: HTMLElement | null = document.getElementById("visor");
+    if (visor == null) {
         return;
     }
     visor.innerHTML = "0";
@@ -364,7 +366,7 @@ function clickAllClean() {
 }
 
 
-function calcule(a: number, b: number, operator: string): number{
+function calcule(a: number, b: number, operator: string): number {
     switch (operator) {
         case "+":
             return a + b;
