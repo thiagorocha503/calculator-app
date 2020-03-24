@@ -127,7 +127,12 @@ function numberFormatToNumber(text: string): string {
 }
 
 function numberToNumberFormat(number_: string): string {
-    number_ = String(number_);
+    let isNegativeNumber: boolean = false;
+    if(number_.indexOf("-") != -1){
+        isNegativeNumber = true;
+        number_ = number_.replace("-","");
+    }
+
     let number_format: string = "";
     let decimal: string = "";
     let dot_index: number = number_.indexOf(".");
@@ -143,7 +148,9 @@ function numberToNumberFormat(number_: string): string {
             number_format += ".";
         }
     }
-    return inverter(number_format) + decimal;
+    let result: string =  inverter(number_format) + decimal;
+    console.log("result> "+result);
+    return isNegativeNumber?"-"+result: result;
 }
 
 

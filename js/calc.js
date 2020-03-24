@@ -123,7 +123,11 @@ function numberFormatToNumber(text) {
     return new_number.replace(",", ".");
 }
 function numberToNumberFormat(number_) {
-    number_ = String(number_);
+    var isNegativeNumber = false;
+    if (number_.indexOf("-") != -1) {
+        isNegativeNumber = true;
+        number_ = number_.replace("-", "");
+    }
     var number_format = "";
     var decimal = "";
     var dot_index = number_.indexOf(".");
@@ -139,7 +143,9 @@ function numberToNumberFormat(number_) {
             number_format += ".";
         }
     }
-    return inverter(number_format) + decimal;
+    var result = inverter(number_format) + decimal;
+    console.log("result> " + result);
+    return isNegativeNumber ? "-" + result : result;
 }
 function inverter(text) {
     if (text.length == 1) {
