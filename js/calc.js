@@ -1,10 +1,59 @@
 var operator = "";
 var last_key = "";
 var result = NaN;
+var changeDisplay = true;
 var ERROR_MESSAGE = "ERR";
 var DECIMAL_PLACES = 3;
 var MAXIMO_DIGITS = 8;
-var changeDisplay = true;
+var NUMBERS = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+var OPERATORS = ["-", "+", "/", "*"];
+var ENTER_KEY = 13;
+var BACKSPACE_KEY = 8;
+//------------------------------ Events
+window.addEventListener("keydown", function (event) {
+    console.log("key code: " + event.keyCode + ", key char: " + event.key);
+    if (isOperator(event.key)) {
+        clickOperador(event.key);
+    }
+    else if (isNumber(event.key)) {
+        clickNumberButton(event.key);
+    }
+    else if (event.key == ".") {
+        clickDot();
+    }
+    else if (event.keyCode == ENTER_KEY) {
+        clickEquals();
+    }
+    else if (event.keyCode == BACKSPACE_KEY) {
+        clickLeftArrow();
+    }
+});
+// load and reload page
+window.addEventListener("load", function (event) {
+    var visor = document.getElementById("visor");
+    if (visor == null) {
+        return;
+    }
+    visor.innerHTML = "0";
+});
+//-----------------------------------------------------
+function isNumber(text) {
+    if (NUMBERS.indexOf(text) != -1) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+//
+function isOperator(text) {
+    if (OPERATORS.indexOf(text) != -1) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
 /**
  * Inverter sinal do número
  */
@@ -35,36 +84,15 @@ function clickLeftArrow() {
         visor.innerHTML = "0";
     }
     else {
+        //console.log("leftRow: new value> "+new_value);
+        if (new_value == "-") {
+            visor.innerHTML = "0";
+            return;
+        }
         visor.innerHTML = numberToNumberFormat(new_value);
     }
 }
-// load and reload page
-window.addEventListener("load", function (event) {
-    var visor = document.getElementById("visor");
-    if (visor == null) {
-        return;
-    }
-    visor.innerHTML = "0";
-});
-/**
- *
- * @param {*} new_operator
- */
-function isOperator(a) {
-    if (a == "+") {
-        return true;
-    }
-    else if (a == "-") {
-        return true;
-    }
-    else if (a == "*") {
-        return true;
-    }
-    else if (a == "/") {
-        return true;
-    }
-    return false;
-}
+//
 function clickOperador(new_operator) {
     var visor = document.getElementById("visor");
     if (visor == null) {
@@ -100,7 +128,11 @@ function numberFormatToNumber(text) {
     return new_number.replace(",", ".");
 }
 function numberToNumberFormat(number_) {
-    number_ = String(number_);
+    var isNegativeNumber = false;
+    if (number_.indexOf("-") != -1) {
+        isNegativeNumber = true;
+        number_ = number_.replace("-", "");
+    }
     var number_format = "";
     var decimal = "";
     var dot_index = number_.indexOf(".");
@@ -116,7 +148,9 @@ function numberToNumberFormat(number_) {
             number_format += ".";
         }
     }
-    return inverter(number_format) + decimal;
+    var result = inverter(number_format) + decimal;
+    console.log("result> " + result);
+    return isNegativeNumber ? "-" + result : result;
 }
 function inverter(text) {
     if (text.length == 1) {
@@ -242,6 +276,9 @@ function isValidZero() {
         }
     }
 }
+/**
+ * Retorna a quantidade de casas decimais do número no visor
+ */
 function countDecimalPlaces(text) {
     var index_dot = text.indexOf(".");
     if (index_dot == -1) {
@@ -254,9 +291,6 @@ function countDecimalPlaces(text) {
 function hasDot(text) {
     return (text.indexOf(",") == -1) ? false : true;
 }
-/**
- * Retorna a quantidade de casas decimais do número no visor
- */
 function clickDot() {
     var visor = document.getElementById("visor");
     if (visor == null) {
