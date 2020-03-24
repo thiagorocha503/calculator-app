@@ -1,10 +1,41 @@
 var operator = "";
 var last_key = "";
 var result = NaN;
+var changeDisplay = true;
 var ERROR_MESSAGE = "ERR";
 var DECIMAL_PLACES = 3;
 var MAXIMO_DIGITS = 8;
-var changeDisplay = true;
+var NUMBERS = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+var ENTER_KEY = 13;
+var BACKSPACE_KEY = 8;
+5;
+//
+window.addEventListener("keydown", function (event) {
+    console.log("key code: " + event.keyCode + ", key char: " + event.key);
+    if (isOperator(event.key)) {
+        clickOperador(event.key);
+    }
+    else if (isNumber(event.key)) {
+        clickNumberButton(event.key);
+    }
+    else if (event.key == ".") {
+        clickDot();
+    }
+    else if (event.keyCode == ENTER_KEY) {
+        clickEquals();
+    }
+    else if (event.keyCode == BACKSPACE_KEY) {
+        clickLeftArrow();
+    }
+});
+function isNumber(text) {
+    if (text in NUMBERS) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
 /**
  * Inverter sinal do número
  */
@@ -46,10 +77,7 @@ window.addEventListener("load", function (event) {
     }
     visor.innerHTML = "0";
 });
-/**
- *
- * @param {*} new_operator
- */
+//
 function isOperator(a) {
     if (a == "+") {
         return true;
@@ -242,6 +270,9 @@ function isValidZero() {
         }
     }
 }
+/**
+ * Retorna a quantidade de casas decimais do número no visor
+ */
 function countDecimalPlaces(text) {
     var index_dot = text.indexOf(".");
     if (index_dot == -1) {
@@ -254,9 +285,6 @@ function countDecimalPlaces(text) {
 function hasDot(text) {
     return (text.indexOf(",") == -1) ? false : true;
 }
-/**
- * Retorna a quantidade de casas decimais do número no visor
- */
 function clickDot() {
     var visor = document.getElementById("visor");
     if (visor == null) {

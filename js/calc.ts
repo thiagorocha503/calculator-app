@@ -1,10 +1,40 @@
 var operator: string = "";
 var last_key: string = "";
 var result: number = NaN;
+var changeDisplay: boolean = true;
+
 const ERROR_MESSAGE: string = "ERR";
 const DECIMAL_PLACES: number = 3;
-const MAXIMO_DIGITS: number = 8
-var changeDisplay: boolean = true;
+const MAXIMO_DIGITS: number = 8;
+const NUMBERS: Array<string> = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+
+const ENTER_KEY: number = 13;
+const BACKSPACE_KEY: number = 8;
+5
+//
+window.addEventListener("keydown",(event)=>{
+    console.log("key code: "+event.keyCode+", key char: "+event.key);
+    if(isOperator(event.key)){
+        clickOperador(event.key);
+    } else if (isNumber(event.key)){
+        clickNumberButton(event.key);
+    } else if (event.key == "."){
+        clickDot();
+    } else if(event.keyCode == ENTER_KEY){
+        clickEquals();
+    } else if(event.keyCode == BACKSPACE_KEY){
+        clickLeftArrow();
+    }
+});
+
+function isNumber(text: string): boolean{
+    if(text in NUMBERS){
+        return true;
+    } else{
+        return false;
+    }
+}
+
 
 /**
  * Inverter sinal do número
@@ -51,11 +81,7 @@ window.addEventListener("load", function(event) {
     }
     visor.innerHTML = "0";
 });
-/**
- * 
- * @param {*} new_operator 
- */
-
+//
 function isOperator(a: string) {
     if (a == "+") {
         return true;
@@ -250,6 +276,9 @@ function isValidZero() {
 
 }
 
+/**
+ * Retorna a quantidade de casas decimais do número no visor
+ */
 function countDecimalPlaces(text: string) {
     let index_dot: number = text.indexOf("."); 
     if (index_dot == -1) {
@@ -265,9 +294,7 @@ function hasDot(text: string) {
     return (text.indexOf(",") == -1) ? false : true;
 }
 
-/**
- * Retorna a quantidade de casas decimais do número no visor
- */
+
 function clickDot() {
     let visor: HTMLElement| null = document.getElementById("visor");
     if(visor == null){
