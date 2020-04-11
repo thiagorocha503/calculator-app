@@ -3,58 +3,91 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Calculadora</title>
-    <link rel="stylesheet" type="text/css" href="css/calc.css">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator app</title>
+    <link type="text/css" rel="stylesheet" href="css/calc.css" />
 </head>
 
 <body>
-    <center id="container">
-        <form>
-            <table border="0" cellpadding="30" id="calculadora" aling="center">
-                <tr>
-                    <td colspan="4">
-                        <div id="display_padding">
-                            <div id="visor" value="0"></div>
-                        </div>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td><input type="button" class="button_grey" value="C" onclick="clickClean();"></td>
-                    <td><input type="button" class="button_grey" value="CE " onclick="clickAllClean()"></td>
-                    <td><input type="button" class="left_arrow" value="&#8678;" onclick="clickLeftArrow();"></td>
-                    <td><input type="button" class="button_operador" value="÷" onclick="clickOperador('/')"></td>
-                </tr>
-                <tr>
-                    <td><input type="button" value="7" onclick="clickNumberButton(7);"></td>
-                    <td><input type="button" value="8" onclick="clickNumberButton(8);"></td>
-                    <td><input type="button" value="9" onclick="clickNumberButton(9);"></td>
-                    <td><input type="button" class="button_operador" value="×" onclick="clickOperador('*');"></td>
-                </tr>
-                <tr>
-                    <td><input type="button" value="4" onclick="clickNumberButton(4);"></td>
-                    <td><input type="button" value="5" onclick="clickNumberButton(5);"></td>
-                    <td><input type="button" value="6" onclick="clickNumberButton(6);"></td>
-                    <td><input type="button" class="button_operador" value="-" onclick="clickOperador('-');"></td>
-                </tr>
-                <tr>
-                    <td><input type="button" value="1" onclick="clickNumberButton(1);"></td>
-                    <td><input type="button" value="2" onclick="clickNumberButton(2);"></td>
-                    <td><input type="button" value="3" onclick="clickNumberButton(3);"></td>
-                    <td><input type="button" class="button_operador" value="+" onclick="clickOperador('+');"></td>
-
-                </tr>
-                <tr>
-                    <td><input type="button" class="plus_mines" value="±" onclick="clickInvert();"></td>
-                    <td><input type="button" value="0" onclick="clickNumberButton(0);"></td>
-                    <td><input type="button" class="dot" value="." onclick="clickDot()"></td>
-                    <td><input type="button" class="button_operador" value="=" onclick="clickEquals();"></td>
-                </tr>
-            </table>
-        </form>
-    </center>
-    <!---Script da calculadora-->
+    <div id="container">
+        <div class="calc">
+            <div class="display">
+                <div id="visor" value="0"></div>
+            </div>
+            <div class="keyboard">
+                <div class="row">
+                    <div class="col">
+                        <input type="button" class="button button-c" value="C" onclick="clickClean();" />
+                    </div>
+                    <div class="col">
+                        <input type="button" class="button button-ce" value="CE" onclick="clickAllClean();" />
+                    </div>
+                    <div class="col">
+                        <input type="button" class="button button-left_arrow" value="&#8678" onclick="clickLeftArrow();" />
+                    </div>
+                    <div class="col">
+                        <input type="button" class="button button-operator" value="÷" onclick="clickOperador('/');" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <input type="button" class="button" value="7" onclick="clickNumberButton(7);" />
+                    </div>
+                    <div class="col">
+                        <input type="button" class="button" value="8" onclick="clickNumberButton(8);" />
+                    </div>
+                    <div class="col">
+                        <input type="button" class="button" value="9" onclick="clickNumberButton(9);" />
+                    </div>
+                    <div class="col">
+                        <input type="button" class="button button-operator" value="×" onclick="clickOperador('*');" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <input type="button" class="button" value="4" onclick="clickNumberButton(4);" />
+                    </div>
+                    <div class="col">
+                        <input type="button" class="button" value="5" onclick="clickNumberButton(5);" />
+                    </div>
+                    <div class="col">
+                        <input type="button" class="button" value="6" onclick="clickNumberButton(6);" />
+                    </div>
+                    <div class="col">
+                        <input type="button" class="button button-operator" value="-" onclick="clickOperador('-');" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <input type="button" class="button" value="1" onclick="clickNumberButton(1);" />
+                    </div>
+                    <div class="col">
+                        <input type="button" class="button" value="2" onclick="clickNumberButton(2);" />
+                    </div>
+                    <div class="col">
+                        <input type="button" class="button" value="3" onclick="clickNumberButton(3);" />
+                    </div>
+                    <div class="col">
+                        <input type="button" class="button button-operator" value="+" onclick="clickOperador('+');" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <input type="button" class="button" value="±" onclick="clickInvert();" />
+                    </div>
+                    <div class="col">
+                        <input type="button" class="button" value="0" onclick="clickNumberButton(0);" />
+                    </div>
+                    <div class="col">
+                        <input type="button" class="button" value="." onclick="clickDot()" />
+                    </div>
+                    <div class="col">
+                        <input type="button" class="button button-operator" value="=" onclick="clickEquals();" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <script type="text/javascript" src="js/calc.js"></script>
 </body>
 
