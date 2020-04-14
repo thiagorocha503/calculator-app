@@ -9,7 +9,7 @@
 
 /* Geral */
 
-.display {
+.screen {
     background-color: #000000;
     color: #FFFFFF;
     height: 20%;
@@ -17,7 +17,7 @@
     padding-right: 10px;
 }
 
-#visor {
+#display {
     text-align: right;
     font-size: 60px;
 }
@@ -78,7 +78,7 @@
     height: 100vh;
 }
 
-#visor {
+#display {
     padding-top: 20px;
 }
 
@@ -94,7 +94,7 @@
     .button {
         font-size: 35px;
     }
-    #visor {
+    #display {
         padding-top: 20px;
         font-size: 100px;
     }
@@ -107,7 +107,7 @@
     .button {
         font-size: 50px;
     }
-    #visor {
+    #display {
         padding-top: 20px;
         font-size: 140px;
     }
@@ -117,7 +117,7 @@
 /*  Desktop */
 
 @media only screen and (min-width: 1025px) {
-    #visor {
+    #display {
         font-size: 50px;
     }
     #container {

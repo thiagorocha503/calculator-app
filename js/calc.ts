@@ -31,11 +31,11 @@ window.addEventListener("keydown", function (event) {
 
 // load and reload page
 window.addEventListener("load", function (event) {
-    let visor: HTMLElement | null = document.getElementById("visor");
-    if (visor == null) {
+    let display: HTMLElement | null = document.getElementById("display");
+    if (display == null) {
         return;
     }
-    visor.innerHTML = "0";
+    display.innerHTML = "0";
 });
 
 //-----------------------------------------------------
@@ -59,51 +59,51 @@ function isOperator(text: string): boolean {
  * Inverter sinal do número
  */
 function clickInvert() {
-    let visor: Element | null = document.getElementById("visor");
-    if (visor == null) {
-        console.log("Click_invert visor null");
+    let display: Element | null = document.getElementById("display");
+    if (display == null) {
+        console.log("Click_invert display null");
         return;
     }
-    if (visor.innerHTML == ERROR_MESSAGE) {
+    if (display.innerHTML == ERROR_MESSAGE) {
         return;
     }
-    let result_invert: number = (-1) * parseFloat(numberFormatToNumber(visor.innerHTML));
-    visor.innerHTML = numberToNumberFormat(String(result_invert));
+    let result_invert: number = (-1) * parseFloat(numberFormatToNumber(display.innerHTML));
+    display.innerHTML = numberToNumberFormat(String(result_invert));
 
 }
 
 
 function clickLeftArrow() {
-    let visor: HTMLElement | null = document.getElementById("visor");
-    if (visor == null) {
+    let display: HTMLElement | null = document.getElementById("display");
+    if (display == null) {
         return;
     }
     // tela com número zero
-    if (visor.innerHTML == "0" || visor.innerHTML == ERROR_MESSAGE) {
+    if (display.innerHTML == "0" || display.innerHTML == ERROR_MESSAGE) {
         return;
     }
-    visor.innerHTML = numberFormatToNumber(visor.innerHTML);
-    let new_value: string = visor.innerHTML.substr(0, visor.innerHTML.length - 1);
+    display.innerHTML = numberFormatToNumber(display.innerHTML);
+    let new_value: string = display.innerHTML.substr(0, display.innerHTML.length - 1);
     if (new_value == "") {
-        visor.innerHTML = "0";
+        display.innerHTML = "0";
     } else {
         //console.log("leftRow: new value> "+new_value);
         if (new_value == "-") {
-            visor.innerHTML = "0";
+            display.innerHTML = "0";
             return;
         }
-        visor.innerHTML = numberToNumberFormat(new_value);
+        display.innerHTML = numberToNumberFormat(new_value);
     }
 
 }
 //
 function clickOperador(new_operator: string) {
-    let visor: HTMLElement | null = document.getElementById("visor");
-    if (visor == null) {
+    let display: HTMLElement | null = document.getElementById("display");
+    if (display == null) {
         return;
     }
     // caso ERR, bloqueia insersão
-    if (visor.innerHTML == ERROR_MESSAGE) {
+    if (display.innerHTML == ERROR_MESSAGE) {
         return;
     }
     if (isOperator(last_key)) {
@@ -117,12 +117,12 @@ function clickOperador(new_operator: string) {
     // operação anterior
     if (operator != "") {
         let a: number = result;
-        let b: number = parseFloat(numberFormatToNumber(visor.innerHTML));
+        let b: number = parseFloat(numberFormatToNumber(display.innerHTML));
         result = calcule(a, b, operator);
         return;
     } else {
         operator = new_operator;
-        let new_result = parseFloat(numberFormatToNumber(visor.innerHTML));
+        let new_result = parseFloat(numberFormatToNumber(display.innerHTML));
         result = new_result;
     }
 
@@ -177,13 +177,13 @@ function inverter(text: string): string {
  * 
  */
 function clickNumberButton(number: string) {
-    let visor: HTMLElement | null = document.getElementById("visor");
+    let display: HTMLElement | null = document.getElementById("display");
     last_key = number;
-    if (visor == null) {
+    if (display == null) {
         return;
     }
     // caso ERR, bloqueia insersão
-    if (visor.innerHTML == ERROR_MESSAGE) {
+    if (display.innerHTML == ERROR_MESSAGE) {
         return;
     }
     // verifica se numero zero é válido
@@ -194,89 +194,89 @@ function clickNumberButton(number: string) {
     }
     // verifica quantidade de digitos
     if (changeDisplay) {
-        visor.innerHTML = "";
+        display.innerHTML = "";
         changeDisplay = false;
     }
-    visor.innerHTML = numberFormatToNumber(visor.innerHTML);
-    if ((visor.innerHTML).indexOf(".") >= 0) {
-        if ((visor.innerHTML.length <= MAXIMO_DIGITS) && (countDecimalPlaces(String(visor.innerHTML)) < DECIMAL_PLACES)) {
-            if (visor.innerHTML == "0") {
-                visor.innerHTML = numberToNumberFormat(visor.innerHTML + number);
+    display.innerHTML = numberFormatToNumber(display.innerHTML);
+    if ((display.innerHTML).indexOf(".") >= 0) {
+        if ((display.innerHTML.length <= MAXIMO_DIGITS) && (countDecimalPlaces(String(display.innerHTML)) < DECIMAL_PLACES)) {
+            if (display.innerHTML == "0") {
+                display.innerHTML = numberToNumberFormat(display.innerHTML + number);
             } else {
-                visor.innerHTML = numberToNumberFormat(visor.innerHTML + number);
+                display.innerHTML = numberToNumberFormat(display.innerHTML + number);
             }
             return;
         }
-        visor.innerHTML = numberToNumberFormat(visor.innerHTML);
+        display.innerHTML = numberToNumberFormat(display.innerHTML);
     } else {
-        if (visor.innerHTML.length < MAXIMO_DIGITS) {
-            if (visor.innerHTML == "0") {
-                visor.innerHTML = number;
+        if (display.innerHTML.length < MAXIMO_DIGITS) {
+            if (display.innerHTML == "0") {
+                display.innerHTML = number;
             } else {
-                visor.innerHTML = numberToNumberFormat(visor.innerHTML + number);
+                display.innerHTML = numberToNumberFormat(display.innerHTML + number);
             }
             return;
         }
-        visor.innerHTML = numberToNumberFormat(visor.innerHTML);
+        display.innerHTML = numberToNumberFormat(display.innerHTML);
     }
 
 }
 
 function clickEquals() {
-    let visor: HTMLElement | null = document.getElementById("visor");
-    if (visor == null) {
+    let display: HTMLElement | null = document.getElementById("display");
+    if (display == null) {
         return;
     }
     // número seguido de operador 
     if (isOperator(last_key) || result == NaN) {
         operator = "";
         result = NaN;
-        visor.innerHTML = "0";
+        display.innerHTML = "0";
         return;
     }
     // após uma operação com erro
-    if (visor.innerHTML == ERROR_MESSAGE) {
+    if (display.innerHTML == ERROR_MESSAGE) {
         return;
     }
-    result = calcule(result, parseFloat(numberFormatToNumber(visor.innerHTML)), operator);
+    result = calcule(result, parseFloat(numberFormatToNumber(display.innerHTML)), operator);
     changeDisplay = true;
     // mais de um clique no botão de igual
     if (last_key == "=") {
-        visor.innerHTML = "0";
+        display.innerHTML = "0";
         return;
     }
     // nenhuma operação realizada
     if (operator == "") {
-        visor.innerHTML = "0";
+        display.innerHTML = "0";
         return;
     }
     last_key = "=";
     if (isNaN(result) || (String(result).length > MAXIMO_DIGITS)) {
-        visor.innerHTML = ERROR_MESSAGE;
+        display.innerHTML = ERROR_MESSAGE;
     } else {
         if (result == Infinity || result == NaN) {
-            visor.innerHTML = ERROR_MESSAGE;
+            display.innerHTML = ERROR_MESSAGE;
             return;
         }
-        visor.innerHTML = numberToNumberFormat(String(result));
+        display.innerHTML = numberToNumberFormat(String(result));
     }
     operator = "";
 }
 
 function isValidZero(): boolean {
-    let visor: HTMLElement | null = document.getElementById("visor");
-    if (visor == null) {
+    let display: HTMLElement | null = document.getElementById("display");
+    if (display == null) {
         return;
     }
     // tela vazia
-    if (visor.innerHTML.length == 0) {
+    if (display.innerHTML.length == 0) {
         return true;
     } else {
         // caso decimal
-        if (hasDot(String(visor.innerHTML))) {
+        if (hasDot(String(display.innerHTML))) {
             return true;
         }
-        if (visor.innerHTML[0] == "0") {
+        if (display.innerHTML[0] == "0") {
             return false
         } else {
             return true;
@@ -286,7 +286,7 @@ function isValidZero(): boolean {
 }
 
 /**
- * Retorna a quantidade de casas decimais do número no visor
+ * Retorna a quantidade de casas decimais do número no display
  */
 function countDecimalPlaces(text: string): number {
     let index_dot: number = text.indexOf(".");
@@ -305,21 +305,21 @@ function hasDot(text: string): boolean {
 
 
 function clickDot() {
-    let visor: HTMLElement | null = document.getElementById("visor");
-    if (visor == null) {
+    let display: HTMLElement | null = document.getElementById("display");
+    if (display == null) {
         return;
     }
     //bloqueia inserção
-    if (visor.innerHTML == ERROR_MESSAGE) {
+    if (display.innerHTML == ERROR_MESSAGE) {
         return;
     }
-    if (!hasDot(String(visor.innerHTML))) {
+    if (!hasDot(String(display.innerHTML))) {
         // caso nenhum número
-        if (visor.innerHTML == "") {
-            visor.innerHTML = "0,";
+        if (display.innerHTML == "") {
+            display.innerHTML = "0,";
             return;
         }
-        visor.innerHTML = (visor.innerHTML + ",");
+        display.innerHTML = (display.innerHTML + ",");
     }
 
 }
@@ -330,21 +330,21 @@ function clickDot() {
  * Limpa valor atual da tela
  */
 function clickClean() {
-    let visor: HTMLElement | null = document.getElementById("visor");
-    if (visor == null) {
+    let display: HTMLElement | null = document.getElementById("display");
+    if (display == null) {
         return;
     }
-    if (visor.innerHTML == ERROR_MESSAGE) {
+    if (display.innerHTML == ERROR_MESSAGE) {
         return;
     }
     if (isOperator(last_key)) {
         operator = "";
-        visor.innerHTML = String(result);
+        display.innerHTML = String(result);
     } else if (last_key == "=") {
-        visor.innerHTML = "0";
+        display.innerHTML = "0";
         result = NaN;
     } else {
-        visor.innerHTML = "0";
+        display.innerHTML = "0";
     }
 
 }
@@ -356,11 +356,11 @@ function clickClean() {
  * 
  */
 function clickAllClean() {
-    let visor: HTMLElement | null = document.getElementById("visor");
-    if (visor == null) {
+    let display: HTMLElement | null = document.getElementById("display");
+    if (display == null) {
         return;
     }
-    visor.innerHTML = "0";
+    display.innerHTML = "0";
     result = NaN;
     operator = "";
 }
